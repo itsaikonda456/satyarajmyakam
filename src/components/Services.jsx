@@ -57,13 +57,13 @@ export default function Services() {
       aria-labelledby="services-title"
       className="relative isolate w-full overflow-hidden bg-black py-20 md:py-28"
     >
-      {/* Subtle backdrop: radial accent glow + faint grid pattern */}
+      {/* subtle backdrop */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(230,57,70,0.12),transparent_60%)]" />
         <div className="absolute inset-0 opacity-[0.12] bg-[linear-gradient(#1a1a1a_1px,transparent_1px),linear-gradient(90deg,#1a1a1a_1px,transparent_1px)] bg-[size:28px_28px]" />
       </div>
 
-      {/* Section header */}
+      {/* Section Header */}
       <div className="mx-auto max-w-5xl px-6 text-center">
         <motion.h2
           id="services-title"
@@ -71,31 +71,21 @@ export default function Services() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.5 }}
-          className="font-sans text-2xl md:text-3xl leading-tight text-[#f9f9f9]"
+          className="
+            font-sans 
+            text-xl md:text-3xl 
+            text-[#f9f9f9] 
+            inline-block relative
+            after:content-[''] after:block after:h-[2px] 
+            after:w-12 after:bg-white/70 after:mx-auto after:mt-2 after:rounded
+            md:hover:after:w-24 md:after:transition-all md:after:duration-300
+          "
         >
-         Services
+          Services
         </motion.h2>
-
-        {/* underline accent */}
-        <div className="mt-4 flex justify-center" aria-hidden="true">
-          <svg
-            className="h-4 w-24 text-white/80"
-            viewBox="0 0 96 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M2 8c6 0 6-6 12-6s6 6 12 6 6-6 12-6 6 6 12 6 6-6 12-6 6 6 12 6"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              fill="none"
-            />
-          </svg>
-        </div>
       </div>
 
-      {/* Cards grid */}
+      {/* Cards */}
       <motion.div
         variants={container}
         initial="hidden"
@@ -127,16 +117,14 @@ export default function Services() {
               focus-within:shadow-[0_0_40px_rgba(230,57,70,0.28)]
             "
           >
-            {/* Accent glow ring on hover */}
-            <div
-              className="
-                pointer-events-none absolute inset-0 
-                rounded-xl sm:rounded-2xl 
-                ring-0 ring-[#e63946]/0 
-                transition-all duration-300 
-                group-hover:ring-2 group-hover:ring-[#e63946]/40
-              "
-            />
+            {/* Hover Ring */}
+            <div className="
+              pointer-events-none absolute inset-0 
+              rounded-xl sm:rounded-2xl 
+              ring-0 ring-[#e63946]/0 
+              transition-all duration-300 
+              group-hover:ring-2 group-hover:ring-[#e63946]/40
+            " />
 
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-4 text-center sm:text-left">
               <div
@@ -163,7 +151,6 @@ export default function Services() {
               </div>
             </div>
 
-            {/* Decorative bottom accent */}
             <div className="mt-4 sm:mt-6 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           </motion.article>
         ))}

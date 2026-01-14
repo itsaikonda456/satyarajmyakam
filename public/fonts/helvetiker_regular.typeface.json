@@ -1,0 +1,20 @@
+const fontLoader = new FontLoader();
+
+fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
+  const textGeometry = new TextGeometry("Hello", {
+    font: font,
+    size: 5,
+    height: 1,
+    curveSegments: 12,
+    bevelEnabled: true,
+    bevelThickness: 0.1,
+    bevelSize: 0.05,
+    bevelOffset: 0,
+    bevelSegments: 5,
+  });
+
+  const textMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+  const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+
+  scene.add(textMesh);
+});

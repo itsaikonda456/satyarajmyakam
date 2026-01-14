@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Camera, Menu, X } from "lucide-react"
 
 const leftLinks = ["Home", "Gallery", "About", "Services"]
-const rightLinks = ["Skills", "Work", "Testimonial", "Contact"]
+const rightLinks = ["Skills", "Work", "Feedback", "Contact"]
 
 function NavLinks({ items, align = "left", active, setActive, onClick }) {
   const scrollToSection = (item) => {
@@ -33,6 +33,7 @@ function NavLinks({ items, align = "left", active, setActive, onClick }) {
               aria-current={isActive ? "page" : undefined}
             >
               <span>{item}</span>
+
               {isActive && (
                 <motion.span
                   layoutId="nav-underline"
@@ -61,10 +62,13 @@ export default function HeroSection() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // ⭐ UPDATED → scrolls to PORTFOLIO section (Gallery)
   const handleScrollToPortfolio = () => {
-    const portfolioSection = document.getElementById("portfolio")
-    portfolioSection?.scrollIntoView({ behavior: "smooth" })
-    setActive("Portfolio")
+    const target = document.getElementById("gallery")
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" })
+      setActive("Gallery")
+    }
   }
 
   return (
@@ -83,20 +87,22 @@ export default function HeroSection() {
       {/* Overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
 
-      {/* Fixed Navbar for ALL screens */}
-      <motion.nav
-        initial={{ opacity: 0, y: -12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-500 overflow-x-hidden ${
-          scrolled
-            ? "bg-black/40 backdrop-blur-md shadow-lg"
-            : "bg-transparent backdrop-blur-none"
-        }`}
-        aria-label="Primary"
-      >
+      {/* Navbar */}
+     <motion.nav
+  initial={{ opacity: 0, y: -12 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6, ease: "easeOut" }}
+  className={`sticky top-0 z-[99999] isolate transition-all duration-500 ${
+    scrolled
+      ? "bg-black/40 backdrop-blur-md shadow-lg"
+      : "bg-transparent backdrop-blur-none"
+  }`}
+  aria-label="Primary"
+>
+
         <div className="mx-auto w-full max-w-7xl px-4 md:px-8 overflow-hidden">
           <div className="flex items-center justify-between py-4 w-full">
+            
             {/* Left Links */}
             <div className="hidden md:flex flex-1 justify-end pr-10">
               <NavLinks
@@ -110,9 +116,7 @@ export default function HeroSection() {
             {/* Logo */}
             <button
               onClick={() => {
-                document
-                  .getElementById("home")
-                  ?.scrollIntoView({ behavior: "smooth" })
+                document.getElementById("home")?.scrollIntoView({ behavior: "smooth" })
                 setActive("Home")
                 setMenuOpen(false)
               }}
@@ -144,7 +148,7 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Mobile Menu (no overflow, perfectly centered) */}
+        {/* Mobile Menu */}
         {menuOpen && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -185,7 +189,7 @@ export default function HeroSection() {
         </motion.p>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* ⭐ Scroll Button → NOW SCROLLS TO GALLERY */}
       <div
         onClick={handleScrollToPortfolio}
         className="absolute inset-x-0 bottom-6 z-20 flex flex-col items-center gap-2 cursor-pointer"
@@ -195,7 +199,9 @@ export default function HeroSection() {
             <span className="h-1 w-1 rounded-full bg-white/90 animate-bounce" />
           </div>
         </div>
-        <span className="text-[10px] tracking-[0.2em] text-white/70">SCROLL</span>
+        <span className="text-[10px] tracking-[0.2em] text-white/70">
+          SCROLL
+        </span>
       </div>
     </section>
   )

@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@formspree/react": "^3.0.0",
+    "@mediapipe/camera_utils": "^0.3.1675466862",
+    "@mediapipe/drawing_utils": "^0.3.1675466124",
+    "@mediapipe/hands": "^0.4.1675469240",
     "framer-motion": "^12.23.24",
     "heic-convert": "^2.1.0",
     "heic2any": "^0.0.4",
@@ -19,7 +22,8 @@
     "react-dom": "^19.1.1",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.5.0",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "three": "^0.182.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",

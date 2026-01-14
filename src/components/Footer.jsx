@@ -40,7 +40,7 @@ export default function Footer() {
 
       {/* Copyright */}
       <p className="text-sm text-gray-400">
-        © 2025 All rights reserved | Designed by{" "}
+       Designed & Created by{" "}
         <span className="font-medium text-white">Sai Konda</span>
       </p>
     </footer>

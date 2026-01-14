@@ -1,56 +1,47 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-// =======================
-// 🔥 BACKEND VIDEO LINKS
-// =======================
-const BASE_URL = "http://localhost:5000"; // Change when deployed
+const BASE_URL = "http://localhost:5000";
 
 const videosData = [
   {
     id: 1,
     type: "video",
-    title: "Ganpati Festival Highlights",
-    author: "Satyas_FX",
-    src: `${BASE_URL}/videos/satya1.mp4`,
+    title: "Wedding Invitation Card",
+    src: "https://res.cloudinary.com/dlybuktui/video/upload/v1763820975/satya1_qdwxrq.mov",
   },
   {
     id: 2,
     type: "video",
     title: "Cinematic Bike Shoot",
-    author: "Satyas_FX",
-    src: `${BASE_URL}/videos/satya2.mp4`,
+    src: "https://res.cloudinary.com/dlybuktui/video/upload/v1763808782/satya2_jzzutl.mp4",
   },
   {
     id: 3,
     type: "video",
     title: "Fort Exploration Cinematic",
-    author: "Satyas_FX",
-    src: `${BASE_URL}/videos/satya3.mp4`,
+    src: "https://res.cloudinary.com/dlybuktui/video/upload/v1763808781/satya3_vjdyyv.mp4",
   },
   {
     id: 4,
     type: "video",
     title: "RSS Event Coverage",
-    author: "Satyas_FX",
-    src: `${BASE_URL}/videos/satya4.mp4`,
+    src: "https://res.cloudinary.com/dlybuktui/video/upload/v1763808827/satya4_hhf8m8.mp4",
   },
   {
     id: 5,
     type: "video",
-    title: "Bathukamma Festival Celebration",
-    author: "Satyas_FX",
-    src: `${BASE_URL}/videos/satya5.mp4`,
+    title: "Bathukamma Festival",
+    src: "https://res.cloudinary.com/dlybuktui/video/upload/v1763808808/satya5_bhbukj.mp4",
   },
   {
     id: 6,
     type: "video",
     title: "Navratri Garba Night Highlights",
-    author: "Satyas_FX",
-    src: `${BASE_URL}/videos/satya6.mp4`,
+    src: "https://res.cloudinary.com/dlybuktui/video/upload/v1763808821/satya6_gtl11f.mp4",
   },
 ];
 
@@ -78,34 +69,32 @@ export default function Work({ className = "" }) {
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
 
-  // =============================
-  // ⭕ GENERATE POSTERS (1st frame)
-  // =============================
+  // Generate posters from first frame
   useEffect(() => {
     videos.forEach((vid, i) => {
-      const video = document.createElement("video");
+      const videoEl = document.createElement("video");
+      videoEl.src = vid.src;
+      videoEl.crossOrigin = "anonymous";
+      videoEl.muted = true;
+      videoEl.preload = "metadata";
 
-      video.src = vid.src;
-      video.crossOrigin = "anonymous";
-      video.muted = true;
-      video.preload = "metadata";
-
-      video.addEventListener("loadeddata", () => {
-        video.currentTime = 0.05;
+      videoEl.addEventListener("loadeddata", () => {
+        videoEl.currentTime = 0.05;
       });
 
-      video.addEventListener("seeked", () => {
+      videoEl.addEventListener("seeked", () => {
         const canvas = document.createElement("canvas");
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+        canvas.width = videoEl.videoWidth;
+        canvas.height = videoEl.videoHeight;
         const ctx = canvas.getContext("2d");
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+
         const poster = canvas.toDataURL("image/jpeg");
 
         setVideos((prev) => {
-          const newVideos = [...prev];
-          newVideos[i].poster = poster;
-          return newVideos;
+          const arr = [...prev];
+          arr[i].poster = poster;
+          return arr;
         });
       });
     });
@@ -120,28 +109,26 @@ export default function Work({ className = "" }) {
   const prev = () => setIndex((i) => (i - 1 + videos.length) % videos.length);
   const next = () => setIndex((i) => (i + 1) % videos.length);
 
-  // KEYBOARD NAVIGATION
-  useEffect(() => {
-    if (!open) return;
-    const handle = (e) => {
-      if (e.key === "Escape") close();
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
-    };
-    window.addEventListener("keydown", handle);
-    return () => window.removeEventListener("keydown", handle);
-  }, [open]);
-
   return (
-    <section
-      id="work"
-      className={`w-full bg-black text-white ${className}`}
-    >
+    <section id="work" className={`w-full bg-black text-white ${className}`}>
       <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
+
+        {/* Heading */}
         <header className="mb-8 text-center md:mb-10">
-          <h2 className="text-2xl md:text-3xl font-semibold">Work</h2>
+          <h2
+            className="
+              font-sans text-xl md:text-3xl leading-tight text-[#f9f9f9]
+              inline-block relative
+              after:content-[''] after:block after:h-[2px]
+              after:w-12 after:bg-white/70 after:mx-auto after:mt-2 after:rounded
+              md:hover:after:w-24 md:after:transition-all md:after:duration-300
+            "
+          >
+            Work
+          </h2>
         </header>
 
+        {/* Video Grid */}
         <motion.div
           variants={container}
           initial="hidden"
@@ -153,11 +140,21 @@ export default function Work({ className = "" }) {
             <motion.article
               key={vid.id}
               variants={item}
-              className="group w-full rounded-lg overflow-hidden border border-white/10 bg-white/5 hover:-translate-y-1 transition"
+              className="
+                group w-full rounded-lg overflow-hidden 
+                border border-white/10 bg-white/5 
+                hover:-translate-y-1 transition
+              "
             >
               <div
                 onClick={() => openAt(i)}
-                className="relative aspect-[16/9] cursor-pointer overflow-hidden"
+                className="
+                  relative 
+                  w-full 
+                  overflow-hidden 
+                  pb-[56.25%]     /* ⭐ FIXED 16:9 RATIO ALWAYS */
+                  cursor-pointer
+                "
               >
                 <video
                   src={vid.src}
@@ -165,20 +162,26 @@ export default function Work({ className = "" }) {
                   muted
                   loop
                   playsInline
-                  className="h-full w-full object-cover group-hover:scale-105 transition"
+                  className="
+                    absolute top-0 left-0
+                    h-full w-full 
+                    object-cover 
+                    group-hover:scale-105 transition
+                  "
                 />
               </div>
 
               <div className="p-2 text-center">
-                <h3 className="text-xs md:text-lg">{vid.title}</h3>
-                <p className="text-[10px] text-white/60">By {vid.author}</p>
+                <h3 className="text-[10px] sm:text-xs md:text-lg">
+                  {vid.title}
+                </h3>
               </div>
             </motion.article>
           ))}
         </motion.div>
       </div>
 
-      {/* LIGHTBOX */}
+      {/* Lightbox */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -187,10 +190,7 @@ export default function Work({ className = "" }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <button
-              onClick={close}
-              className="absolute top-5 right-5 text-3xl text-white"
-            >
+            <button onClick={close} className="absolute top-5 right-5 text-3xl text-white">
               ×
             </button>
 

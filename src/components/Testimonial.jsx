@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import React from "react"
@@ -7,26 +6,24 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 const TESTIMONIALS = [
   {
     quote:
-      "The video editing was phenomenal! Every cut, transition, and color grade was perfectly timed. Our project looked more polished than we ever imagined.",
-    name: "Sai Konda",
-    // role: "Marketing Manager @BrightVision",
-    image: "/images/sai/sai.jpg",
+      "The photoshoot was absolutely fantastic! The lighting, angles, and attention to detail made every photo look premium and professionally captured.",
+    name: "Sai",
+    image: "/images/sai/sai1.jpg",
   },
   {
     quote:
-      "Absolutely amazing work! The edits brought our wedding video to life, capturing every emotion beautifully. Highly professional and creative.",
-    name: "Harish Gudelli",
-    // role: "Bride & Groom",
+      "An incredible photoshoot experience! The creativity and composition were on point, and every picture beautifully captured the moments and emotions.",
+    name: "Harish",
     image: "/images/harish/harish1.jpg",
   },
   {
     quote:
-      "Their attention to detail and storytelling through video is unmatched. Every corporate and promotional video they produced exceeded our expectations.",
-    name: "Rahul ",
-    // role: "Creative Lead @TechNova",
+      "Outstanding photoshoot work! The visuals were sharp, well-composed, and perfectly edited. Every photo exceeded our expectations.",
+    name: "Rahul",
     image: "/images/rahul/rahul1.jpg",
   },
-]
+];
+
 
 function useInterval(callback, delay, active = true) {
   const savedCb = React.useRef(callback)
@@ -42,12 +39,12 @@ function useInterval(callback, delay, active = true) {
 
 export default function Testimonials({
   items = TESTIMONIALS,
-  interval = 5000, // auto-advance every 5s
+  interval = 5000,
   autoPlay = true,
   className = "",
 }) {
   const [index, setIndex] = React.useState(0)
-  const [direction, setDirection] = React.useState(1) // 1 -> next, -1 -> prev
+  const [direction, setDirection] = React.useState(1)
   const [paused, setPaused] = React.useState(false)
   const prefersReducedMotion = useReducedMotion()
 
@@ -69,24 +66,27 @@ export default function Testimonials({
   const variants = {
     enter: (dir) => ({
       opacity: 0,
-      x: prefersReducedMotion ? 0 : dir > 0 ? 40 : -40,
-      filter: prefersReducedMotion ? "none" : "blur(6px)",
+      x: prefersReducedMotion ? 0 : dir > 0 ? 60 : -60,
+      scale: 0.95,
+      filter: prefersReducedMotion ? "none" : "blur(8px)",
     }),
     center: {
       opacity: 1,
       x: 0,
+      scale: 1,
       filter: "blur(0px)",
       transition: {
-        duration: prefersReducedMotion ? 0.2 : 0.6,
+        duration: prefersReducedMotion ? 0.2 : 0.65,
         ease: "easeOut",
       },
     },
     exit: (dir) => ({
       opacity: 0,
-      x: prefersReducedMotion ? 0 : dir > 0 ? -40 : 40,
-      filter: prefersReducedMotion ? "none" : "blur(6px)",
+      x: prefersReducedMotion ? 0 : dir > 0 ? -60 : 60,
+      scale: 0.95,
+      filter: prefersReducedMotion ? "none" : "blur(8px)",
       transition: {
-        duration: prefersReducedMotion ? 0.2 : 0.4,
+        duration: prefersReducedMotion ? 0.2 : 0.45,
         ease: "easeIn",
       },
     }),
@@ -94,153 +94,130 @@ export default function Testimonials({
 
   return (
     <section
-    id="testimonial"
+      id="feedback"
       aria-label="Testimonials"
-      // Use explicit brand tokens to satisfy the requested palette
       style={{
-        // theming for this section only
         ["--t-bg"]: "#000",
         ["--t-fg"]: "#fff",
         ["--t-accent"]: "#e63946",
-        ["--t-panel"]: "rgba(255,255,255,0.06)",
-        ["--t-panel-border"]: "rgba(255,255,255,0.12)",
+        ["--t-panel"]: "rgba(255,255,255,0.08)",
+        ["--t-panel-border"]: "rgba(255,255,255,0.14)",
       }}
       className={`w-full bg-[var(--t-bg)] text-[var(--t-fg)] ${className}`}
-      onKeyDown={(e) => {
-        if (e.key === "ArrowRight") next()
-        if (e.key === "ArrowLeft") prev()
-      }}
     >
-      <div className="mx-auto max-w-5xl px-4 py-16 md:py-24">
-        <header className="mb-10 text-center md:mb-12">
-          <h2 className="font-sans text-2xl md:text-3xl leading-tight text-[#f9f9f9]">What My Clients Say</h2>
-            <div className="mt-4 flex justify-center" aria-hidden="true">
-            <svg
-              className="h-4 w-24 text-white/80"
-              viewBox="0 0 96 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M2 8c6 0 6-6 12-6s6 6 12 6 6-6 12-6 6 6 12 6 6-6 12-6 6 6 12 6"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                fill="none"
-              />
-            </svg>
-          </div>
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:py-20 md:py-28">
+
+        {/* TITLE */}
+        <header className="mb-10 text-center md:mb-14">
+          <h2
+            className="
+              font-sans text-xl sm:text-2xl md:text-4xl tracking-wide 
+              text-[#f1f1f1]
+              inline-block relative
+              after:content-[''] after:block after:h-[3px]
+              after:w-16 sm:after:w-20 after:bg-[var(--t-fg)] 
+              after:mx-auto after:mt-3 after:rounded-full
+            "
+          >
+            What My Clients Say
+          </h2>
         </header>
 
+        {/* MAIN SLIDER */}
         <div
           className="relative mx-auto max-w-3xl"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
-          {/* Slider viewport */}
-          <div className="relative min-h-[280px]">
+          <div className="relative min-h-[260px] sm:min-h-[300px] md:min-h-[340px]">
             <AnimatePresence initial={false} custom={direction} mode="wait">
-              <motion.figure
-                key={index}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                className="relative rounded-xl border border-[var(--t-panel-border)] bg-[var(--t-panel)] p-6 shadow-sm md:p-10"
-              >
-                <div className="mb-6 flex items-center justify-center text-3xl md:mb-8 md:text-4xl">
-                  <span className="select-none text-[var(--t-fg)]/70">{"“"}</span>
-                </div>
+      <motion.figure
+  key={index}
+  custom={direction}
+  variants={variants}
+  initial="enter"
+  animate="center"
+  exit="exit"
+  className="
+    relative rounded-2xl
+    border border-[var(--t-panel-border)]
+    bg-[var(--t-panel)]
+    p-6 sm:p-8 md:p-10
+    shadow-[0_0_25px_rgba(255,255,255,0.05)]
+    backdrop-blur-xl
+  "
+>
+  <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-center md:items-start">
+    
+    {/* IMAGE */}
+    <img
+      src={current.image}
+      alt={current.name}
+      className="
+        w-32 h-32
+        sm:w-36 sm:h-36
+        md:w-44 md:h-52
+        lg:w-48 lg:h-56
+        object-cover rounded-xl
+         ring-[var(--t-accent)]
+        shadow-lg
+        flex-shrink-0
+      "
+    />
 
-                <blockquote className="text-center text-pretty text-base leading-relaxed md:text-lg">
-                  {current.quote}
-                </blockquote>
+    {/* CONTENT */}
+    <div className="flex-1 text-center md:text-left">
+      
+      {/* QUOTE */}
+      <blockquote
+        className="
+          text-base sm:text-lg md:text-xl
+          text-[#eeeeee] leading-relaxed
+        "
+      >
+        {current.quote}
+      </blockquote>
 
-                <div className="mt-8 flex flex-col items-center gap-4 md:mt-10">
-                  <img
-                    src={current.image || "/placeholder.svg"}
-                    alt={`${current.name} avatar`}
-                    className="h-16 w-16 rounded-full ring-2 ring-[var(--t-accent)]"
-                    loading="lazy"
-                  />
-                  {/* Accent bar */}
-                  <div className="h-1 w-40 rounded-full bg-[var(--t-accent)]" />
-                  <figcaption className="text-center">
-                    <div className="text-base font-medium md:text-lg">{current.name}</div>
-                    <div className="text-sm text-[var(--t-fg)]/70">{current.role}</div>
-                  </figcaption>
-                </div>
-              </motion.figure>
+      {/* NAME + ICON */}
+<figcaption className="mt-20">
+  <div className="flex items-center justify-center md:justify-start gap-3">
+    
+    {/* Icon */}
+    <i className="fa-solid fa-circle-user text-[var(--t-accent)] text-lg sm:text-2xl md:text-2xl" />
+
+    {/* Name */}
+    <span className="text-lg sm:text-2xl md:text-2xl font-semibold text-white">
+      {current.name}
+    </span>
+
+  </div>
+</figcaption>
+
+    </div>
+  </div>
+</motion.figure>
+
+
             </AnimatePresence>
           </div>
 
-          {/* Navigation arrows */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between">
-            <button
-              type="button"
-              aria-label="Previous testimonial"
-              onClick={prev}
-              className="pointer-events-auto ml-1 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--t-panel-border)] bg-white/5 text-[var(--t-fg)]/90 transition hover:bg-[var(--t-accent)]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--t-accent)] md:ml-2"
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                className="translate-x-[1px]"
-                aria-hidden="true"
-              >
-                <path
-                  d="M15 19l-7-7 7-7"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+         
 
-            <button
-              type="button"
-              aria-label="Next testimonial"
-              onClick={next}
-              className="pointer-events-auto mr-1 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--t-panel-border)] bg-white/5 text-[var(--t-fg)]/90 transition hover:bg-[var(--t-accent)]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--t-accent)] md:mr-2"
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                className="-translate-x-[1px]"
-                aria-hidden="true"
-              >
-                <path
-                  d="M9 5l7 7-7 7"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-          </div>
-
-          {/* Optional: small progress indicators */}
+          {/* DOT INDICATORS */}
           <div className="mt-6 flex justify-center gap-2">
             {items.map((_, i) => {
               const active = i === index
               return (
                 <button
                   key={i}
-                  aria-label={`Go to testimonial ${i + 1}`}
                   onClick={() => {
                     setDirection(i > index ? 1 : -1)
                     setIndex(i)
                   }}
-                  className={`h-2 w-2 rounded-full transition ${
-                    active ? "bg-[var(--t-accent)]" : "bg-white/20 hover:bg-white/40"
-                  }`}
+                  className={`
+                    h-2.5 w-2.5 rounded-full transition-all
+                    ${active ? "bg-[var(--t-accent)] scale-110" : "bg-white/25"}
+                  `}
                 />
               )
             })}

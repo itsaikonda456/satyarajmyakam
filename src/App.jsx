@@ -11,6 +11,7 @@ import Footer from './components/Footer'
 // Toastify for notifications
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Pricing from './components/Pricing'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Skills />
       <Work />
       <Testimonial />
+      <Pricing />
       <Contact />
       <Footer />
 

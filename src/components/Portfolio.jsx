@@ -1,3 +1,5 @@
+"use client"
+
 import { useCallback, useEffect, useState, useMemo } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 
@@ -54,8 +56,14 @@ export default function PortfolioSection() {
     setOpen(true)
   }, [])
 
-  const prev = useCallback(() => setIndex((i) => (i - 1 + groupMedia.length) % groupMedia.length), [groupMedia])
-  const next = useCallback(() => setIndex((i) => (i + 1) % groupMedia.length), [groupMedia])
+  const prev = useCallback(
+    () => setIndex((i) => (i - 1 + groupMedia.length) % groupMedia.length),
+    [groupMedia]
+  )
+  const next = useCallback(
+    () => setIndex((i) => (i + 1) % groupMedia.length),
+    [groupMedia]
+  )
 
   useEffect(() => {
     if (!open) return
@@ -68,51 +76,67 @@ export default function PortfolioSection() {
     return () => window.removeEventListener("keydown", onKey)
   }, [open, close, prev, next])
 
-  // ✅ Detect mobile screen
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768) // Tailwind md breakpoint
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
     checkMobile()
     window.addEventListener("resize", checkMobile)
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
-  // ✅ Determine which folders to display based on screen size
   const displayFolders = useMemo(() => {
     const folders = Object.entries(folderStructure)
-
     if (isMobile) {
-      // For mobile, show 9 images
-      if (folders.length < 9) {
-        // add placeholder to make it 9 if needed
-        while (folders.length < 9) {
-          folders.push(["placeholder", { name: "Placeholder" }])
-        }
+      while (folders.length < 9) {
+        folders.push(["placeholder", { name: "Placeholder" }])
       }
     } else {
-      // For desktop, show first 8 images only
       return folders.slice(0, 8)
     }
-
     return folders
   }, [isMobile])
 
   return (
     <section id="gallery" className="bg-black text-white">
       <div className="mx-auto max-w-6xl px-4 md:px-8 py-16 md:py-24">
-        <h2 className="font-sans text-2xl md:text-3xl leading-tight text-[#f9f9f9] mb-10">Gallery</h2>
+
+        {/* ⭐ Section Title with Animated Underline */}
+      <h2
+  className="
+    font-sans text-xl md:text-3xl text-[#f9f9f9] mb-10 
+    text-center w-full
+    inline-block mx-auto relative
+    after:content-[''] after:block after:h-[2px] 
+    after:w-12 after:bg-white/70 after:mx-auto after:mt-2 
+    after:rounded md:hover:after:w-24 
+    md:after:transition-all md:after:duration-300
+  "
+>
+  Gallery
+</h2>
+
 
         <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 gap-2">
           {displayFolders.map(([folder, { name }], i) => {
             if (folder === "placeholder") {
-              return <div key={`placeholder-${i}`} className="aspect-square rounded-lg bg-gray-800/50" />
+              return (
+                <div
+                  key={`placeholder-${i}`}
+                  className="aspect-square rounded-lg bg-gray-800/50"
+                />
+              )
             }
 
             const firstImage = media.find((m) => m.group === folder)
+
             return (
               <motion.button
                 key={folder}
                 onClick={() => openGroup(folder)}
-                className="relative aspect-square overflow-hidden rounded-lg focus:outline-none focus:ring-2 focus:ring-white/60 shadow-lg shadow-gray-900/40"
+                className="
+                  relative aspect-square overflow-hidden rounded-lg 
+                  focus:outline-none focus:ring-2 focus:ring-white/60 
+                  shadow-lg shadow-gray-900/40
+                "
                 variants={itemVariants}
                 initial="hidden"
                 whileInView="show"
@@ -122,8 +146,7 @@ export default function PortfolioSection() {
                 <img
                   src={firstImage?.src}
                   alt={name}
-                  className="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-110"
-                  loading="lazy"
+                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-black/0 hover:bg-black/30 transition-all duration-300" />
               </motion.button>
@@ -132,7 +155,7 @@ export default function PortfolioSection() {
         </div>
       </div>
 
-      {/* Lightbox Modal */}
+      {/* ⭐ Lightbox */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -144,29 +167,22 @@ export default function PortfolioSection() {
             <button
               onClick={close}
               className="absolute right-4 top-4 h-10 w-10 rounded-full bg-white/10 text-white hover:bg-white/20 flex items-center justify-center"
-              aria-label="Close"
             >
               <span className="text-2xl leading-none">&times;</span>
             </button>
 
             <button
               onClick={prev}
-              className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center"
-              aria-label="Previous"
+              className="absolute left-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center"
             >
-              <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+              ❮
             </button>
 
             <button
               onClick={next}
-              className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center"
-              aria-label="Next"
+              className="absolute right-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center"
             >
-              <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+              ❯
             </button>
 
             <div className="max-w-5xl w-full">
@@ -179,26 +195,17 @@ export default function PortfolioSection() {
                   transition={{ duration: 0.25 }}
                   className="flex items-center justify-center"
                 >
-                  {groupMedia[index]?.type === "image" ? (
-                    <img
-                      src={groupMedia[index].src}
-                      alt={groupMedia[index].alt}
-                      className="max-h-[80vh] w-auto rounded-lg object-contain"
-                    />
-                  ) : (
-                    <video
-                      src={groupMedia[index].src}
-                      controls
-                      autoPlay
-                      muted
-                      className="max-h-[80vh] w-auto rounded-lg object-contain"
-                    />
-                  )}
+                  <img
+                    src={groupMedia[index]?.src}
+                    alt={groupMedia[index]?.alt}
+                    className="max-h-[80vh] w-auto rounded-lg object-contain"
+                  />
                 </motion.div>
               </AnimatePresence>
 
               <div className="mt-4 text-center text-xs text-white/70">
-                {index + 1} / {groupMedia.length} — {folderStructure[group]?.name.toUpperCase()}
+                {index + 1} / {groupMedia.length} —{" "}
+                {folderStructure[group]?.name?.toUpperCase()}
               </div>
             </div>
           </motion.div>
