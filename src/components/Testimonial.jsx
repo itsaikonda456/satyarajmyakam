@@ -119,7 +119,7 @@ export default function Testimonials({
               after:mx-auto after:mt-3 after:rounded-full
             "
           >
-            What My Clients Say
+           Feedbacks
           </h2>
         </header>
 

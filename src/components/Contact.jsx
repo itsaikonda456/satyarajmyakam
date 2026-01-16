@@ -17,42 +17,47 @@ export default function Contact() {
 
   const [loading, setLoading] = useState(false)
 
-  const onSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
+const onSubmit = async (e) => {
+  e.preventDefault()
+  setLoading(true)
 
-    try {
-      const form = new FormData()
-      form.append("access_key", "02688718-3c41-4478-872b-01779ed835d8")
-      form.append("name", formData.name)
-      form.append("mobile", formData.mobile)
-      form.append("email", formData.email)
-      form.append("date", formData.date)
-      form.append("message", formData.message)
+  try {
+    const response = await fetch("https://formspree.io/f/xdaakove", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        name: formData.name,
+        mobile: formData.mobile,
+        email: formData.email,
+        date: formData.date,
+        message: formData.message,
+      }),
+    })
 
-      // Optional Email Customization
-      form.append("subject", "New Message from Portfolio Contact Form")
-      form.append("from_name", "Portfolio Website")
+    const result = await response.json()
 
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: form,
+    if (response.ok) {
+      toast.success("Message sent successfully!")
+      setFormData({
+        name: "",
+        mobile: "",
+        email: "",
+        date: "",
+        message: "",
       })
-
-      const result = await response.json()
-
-      if (result.success) {
-        toast.success("Message sent successfully!")
-        setFormData({ name: "", mobile: "", email: "", date: "", message: "" })
-      } else {
-        toast.error("Failed to send message. Try again later.")
-      }
-    } catch (error) {
-      toast.error("Something went wrong. Try again.")
+    } else {
+      toast.error(result?.error || "Failed to send message.")
     }
-
-    setLoading(false)
+  } catch (error) {
+    toast.error("Something went wrong. Try again.")
   }
+
+  setLoading(false)
+}
+
 
   const container = {
     hidden: { opacity: 0 },

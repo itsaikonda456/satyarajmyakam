@@ -5,14 +5,14 @@ import { AnimatePresence, motion } from "framer-motion"
 
 const folderStructure = {
   sai: { name: "Sai", count: 3 },
-  shalini: { name: "Shalini", count: 3 },
+  rohit: { name: "Rohit", count: 3 },
+  harish: { name: "Harish", count: 3 },
   paro: { name: "Paro", count: 3 },
+  sanjana: { name: "Sanjana", count: 3 },
+  manthan: { name: "Manthan", count: 3 },
   naushad: { name: "Naushad", count: 3 },
   rahul: { name: "Rahul", count: 3 },
   aaru: { name: "Aaru", count: 3 },
-  harish: { name: "Harish", count: 3 },
-  priyanka: { name: "Priyanka", count: 3 },
-  sanjana: { name: "Sanjana", count: 3 },
 }
 
 const generateMedia = () => {

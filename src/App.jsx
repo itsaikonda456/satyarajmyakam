@@ -1,7 +1,7 @@
 import HeroSection from './components/HeroSection'
 import Portfolio from './components/Portfolio'
 import About from './components/About'
-import Services from './components/Services'
+// import Services from './components/Services'
 import Skills from './components/Skills'
 import Testimonial from './components/Testimonial'
 import Work from './components/Work'
@@ -20,11 +20,12 @@ function App() {
       <HeroSection />
       <Portfolio />
       <About />
-      <Services />
+      {/* <Services /> */}
       <Skills />
       <Work />
+      <Pricing/>
       <Testimonial />
-      <Pricing />
+      {/* <Pricing /> */}
       <Contact />
       <Footer />
 

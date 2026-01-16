@@ -3,8 +3,8 @@ import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
 import { Camera, Menu, X } from "lucide-react"
 
-const leftLinks = ["Home", "Gallery", "About", "Services"]
-const rightLinks = ["Skills", "Work", "Feedback", "Contact"]
+const leftLinks = ["Home", "Gallery", "About", "Skills"]
+const rightLinks = ["Work", "Feedback", "Pricing","Contact"]
 
 function NavLinks({ items, align = "left", active, setActive, onClick }) {
   const scrollToSection = (item) => {
